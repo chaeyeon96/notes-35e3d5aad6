@@ -1,0 +1,171 @@
+/* Study Wiki — note, section and list pages */
+
+/* ---------- page hero (section, list pages) ---------- */
+.page-hero {
+  background:
+    repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px),
+    radial-gradient(900px 300px at 20% -20%, var(--accent-soft), transparent 70%);
+  border-bottom: 1px solid var(--line);
+}
+.page-hero-inner { max-width: var(--wide); margin: 0 auto; padding: 48px 20px 36px; }
+.page-hero .hero-stats { text-align: left; }
+.crumb { margin: 0 0 6px; font-size: 14px; color: var(--muted); }
+.crumb a { color: var(--muted); }
+.crumb a:hover { color: var(--accent); }
+.note-title { font-family: var(--font-note); font-size: clamp(30px, 5vw, 42px); line-height: 1.25; margin: 0 0 10px; }
+.lead { font-size: 18px; color: var(--ink-soft); margin: 0 0 14px; max-width: 760px; }
+.more-link { margin: 18px 0 0; text-align: right; font-weight: 600; }
+.filter-row { margin-top: 18px; }
+.filter-row .chip { cursor: pointer; font: inherit; font-size: 14px; }
+.filter-row .chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.paper-card[hidden] { display: none; }
+.btn-small { padding: 6px 14px; font-size: 13px; }
+.badge-sage { background: var(--sage-soft); color: var(--sage); }
+.badge-muted { background: var(--paper-2); color: var(--muted); border: 1px solid var(--line); }
+
+/* ---------- concept groups ---------- */
+.topic { margin-bottom: 30px; }
+.topic-title { font-family: var(--font-note); font-size: 21px; margin: 0 0 12px; }
+.topic-title a { color: var(--ink); }
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.concept-card {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 14px 16px; border-radius: 14px;
+  background: var(--paper); border: 1px solid var(--line); color: var(--ink);
+  transition: border-color 0.15s, transform 0.15s;
+}
+.concept-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+.concept-name { font-weight: 700; }
+.concept-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+.concept-home { font-size: 12px; color: var(--sage); }
+
+/* ---------- note page ---------- */
+.note-wrap {
+  max-width: var(--wide); margin: 0 auto; padding: 36px clamp(16px, 3vw, 40px) 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: clamp(20px, 3vw, 40px); align-items: start;
+}
+.page-hero-inner, .block, .topbar-inner, .footer-inner { padding-left: clamp(16px, 3vw, 40px); padding-right: clamp(16px, 3vw, 40px); }
+.lead { max-width: 960px; }
+.paper-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+
+/* figure credit (public build: attribution under paper figures) */
+.note-figure { display: block; margin: 16px 0; }
+.note-figure .note-img { margin: 0 auto; }
+.figure-credit { display: block; margin-top: 6px; text-align: center; font-size: 12.5px; color: var(--muted); }
+
+/* private build: lock screen and menu */
+.lock-screen { min-height: 100vh; display: grid; place-items: center; padding: 20px;
+  background: repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px), var(--bg); }
+.lock-screen[hidden] { display: none; }
+.lock-card { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; align-items: stretch;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px 28px; text-align: center; }
+.lock-card h1 { font-family: var(--font-note); margin: 0; font-size: 30px; }
+.lock-card p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+.lock-mark { margin: 0 auto; width: 44px; height: 44px; font-size: 22px; }
+.lock-input { font: 16px var(--font); padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper-2); color: var(--ink); }
+.lock-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.lock-remember { font-size: 13px; color: var(--ink-soft); display: flex; gap: 6px; justify-content: center; align-items: center; }
+.lock-card .btn { border: 0; cursor: pointer; font: 600 15px var(--font); padding: 11px; }
+.lock-msg { min-height: 1.4em; color: var(--accent) !important; }
+.private-menu { position: fixed; top: 64px; right: 16px; z-index: 40; width: 260px; display: flex; flex-direction: column; gap: 8px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow-hover); padding: 14px 16px; }
+.private-menu[hidden] { display: none; }
+.private-menu .btn { border: 0; cursor: pointer; font-family: var(--font); }
+.private-msg { margin: 4px 0 0; font-size: 13px; color: var(--ink-soft); }
+.note {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 40px 48px 48px;
+  min-width: 0;
+}
+.tag-row { margin: 4px 0 6px; }
+.chip-tag { background: transparent; color: var(--muted); padding: 2px 6px; font-size: 13px; }
+.paper-facts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 10px; }
+.license { font-size: 13px; color: var(--muted); }
+.note .paper-meta { margin-bottom: 8px; }
+
+.note-body { margin-top: 26px; border-top: 1px dashed var(--line); padding-top: 8px; }
+.note-body h2 {
+  font-family: var(--font-note); font-size: 26px; margin: 40px 0 12px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--line); scroll-margin-top: 80px;
+}
+.note-body h3 { font-size: 20px; margin: 30px 0 10px; scroll-margin-top: 80px; }
+.note-body h4 { font-size: 17px; margin: 24px 0 8px; color: var(--ink-soft); scroll-margin-top: 80px; }
+.note-body ul, .note-body ol { padding-left: 1.4em; }
+.note-body li { margin: 3px 0; }
+.note-body li::marker { color: var(--accent); }
+.note-body strong { font-weight: 700; background: linear-gradient(transparent 62%, var(--accent-soft) 62%); }
+.note-body hr { border: 0; border-top: 1px dashed var(--line); margin: 28px 0; }
+.note-body blockquote {
+  margin: 16px 0; padding: 12px 18px; border-left: 4px solid var(--accent);
+  background: var(--paper-2); border-radius: 0 12px 12px 0; color: var(--ink-soft);
+}
+.note-body blockquote p { margin: 4px 0; }
+.note-body code {
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.88em;
+  background: var(--paper-2); padding: 1px 6px; border-radius: 6px; border: 1px solid var(--line);
+}
+.note-body pre { background: var(--paper-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; overflow-x: auto; }
+.note-body pre code { border: 0; padding: 0; background: none; }
+.note-body pre.mermaid { background: var(--paper); text-align: center; font-family: var(--font); }
+.note-img { display: block; max-width: 100%; height: auto; margin: 16px auto; border-radius: 10px; border: 1px solid var(--line); background: #fff; }
+.figure-hidden {
+  display: block; margin: 14px 0; padding: 14px 16px; border-radius: 12px;
+  border: 2px dashed var(--line); color: var(--muted); font-size: 14px; text-align: center;
+}
+.wikilink { border-bottom: 1px dotted currentColor; }
+.wikilink:hover { text-decoration: none; border-bottom-style: solid; }
+.wikilink-paper, .wikilink-pipeline { color: var(--sage); }
+.link-missing { color: var(--ink-soft); border-bottom: 1px dashed var(--line); cursor: help; }
+.block-id { scroll-margin-top: 90px; }
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+
+.table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); border-radius: 12px; }
+.note-body table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+.note-body th, .note-body td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.note-body th { background: var(--paper-2); font-weight: 700; }
+.note-body tr:last-child td { border-bottom: 0; }
+.note-body td .note-img { margin: 4px 0; }
+
+/* callouts */
+.callout { margin: 18px 0; border-radius: 14px; border: 1px solid var(--line); background: var(--paper-2); overflow: hidden; }
+.callout-title { display: flex; gap: 8px; align-items: center; padding: 10px 16px; font-weight: 700; }
+.callout-icon { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; font-size: 13px; }
+.callout-body { padding: 0 16px 6px; }
+.callout-body > :first-child { margin-top: 0; }
+.callout-note .callout-title, .callout-abstract .callout-title { color: var(--ink-soft); }
+.callout-info { border-color: color-mix(in srgb, var(--sage) 35%, var(--line)); background: var(--sage-soft); }
+.callout-info .callout-title { color: var(--sage); }
+.callout-tip, .callout-example { border-color: color-mix(in srgb, var(--accent) 35%, var(--line)); background: var(--accent-soft); }
+.callout-tip .callout-title, .callout-example .callout-title { color: var(--accent); }
+.callout-todo .callout-title { color: var(--muted); }
+.callout-warning { border-color: #d9a441; }
+.callout-warning .callout-title { color: #b8862a; }
+
+/* side column */
+.note-side { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 16px; max-height: calc(100vh - 100px); overflow: auto; }
+.toc, .side-card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.toc-title, .side-title { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.toc ul, .side-links { list-style: none; margin: 0; padding: 0; }
+.toc li { margin: 3px 0; font-size: 13.5px; line-height: 1.45; }
+.toc .toc-l3 { padding-left: 12px; font-size: 13px; }
+.toc a, .side-links a { color: var(--ink-soft); }
+.toc a:hover, .side-links a:hover { color: var(--accent); }
+.side-links li { margin: 4px 0; font-size: 13.5px; line-height: 1.45; }
+.kind-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 7px; vertical-align: middle; background: var(--accent); }
+.kind-paper, .kind-pipeline { background: var(--sage); }
+.kind-section { background: var(--ink-soft); }
+
+@media (max-width: 960px) {
+  .note-wrap { grid-template-columns: 1fr; }
+  .note-side { position: static; max-height: none; }
+}
+@media (max-width: 720px) {
+  .note-wrap { padding: 16px 12px 0; gap: 16px; }
+  .note { padding: 24px 18px 28px; border-radius: 14px; }
+  .page-hero-inner { padding: 32px 16px 26px; }
+  .lead { font-size: 16px; }
+  .concept-grid { grid-template-columns: 1fr; }
+}
