@@ -35,6 +35,8 @@
   transition: border-color 0.15s, transform 0.15s;
 }
 .concept-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+.concept-card-start { grid-column: 1 / -1; border-color: var(--accent); background: var(--accent-soft); }
+.concept-start-label { color: var(--accent); font-size: 12px; font-weight: 700; }
 .concept-name { font-weight: 700; }
 .concept-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
 .concept-home { font-size: 12px; color: var(--sage); }
