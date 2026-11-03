@@ -117,7 +117,7 @@
 }
 .wikilink { border-bottom: 1px dotted currentColor; }
 .wikilink:hover { text-decoration: none; border-bottom-style: solid; }
-.wikilink-paper, .wikilink-pipeline { color: var(--sage); }
+.wikilink-paper, .wikilink-overview, .wikilink-pipeline { color: var(--sage); }
 .link-missing { color: var(--ink-soft); border-bottom: 1px dashed var(--line); cursor: help; }
 .block-id { scroll-margin-top: 90px; }
 .katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
