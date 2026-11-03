@@ -1,7 +1,7 @@
 // Service worker for the private build (copied to /sw.js with base and version filled in).
 // Everything it stores is the encrypted site, so the cache holds nothing readable without the password.
 const BASE = "/notes-35e3d5aad6"
-const CACHE = "study-wiki-" + "a7a63afb"
+const CACHE = "study-wiki-" + "7f367152"
 
 self.addEventListener("install", () => self.skipWaiting())
 self.addEventListener("activate", (e) =>
