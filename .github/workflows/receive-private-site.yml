@@ -1,0 +1,77 @@
+name: Deploy encrypted private wiki artifact
+run-name: Deploy encrypted bundle ${{ inputs.source_run_id }}-${{ inputs.source_attempt }}
+on:
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        required: true
+        type: string
+      source_attempt:
+        required: true
+        type: string
+      artifact_id:
+        required: true
+        type: string
+      bundle_sha256:
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: encrypted-pages-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      actions: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      SOURCE_RUN_ATTEMPT: ${{ inputs.source_attempt }}
+      SOURCE_ARTIFACT_ID: ${{ inputs.artifact_id }}
+      BUNDLE_SHA256: ${{ inputs.bundle_sha256 }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+      - name: Verify exact source workflow and artifact identity
+        env:
+          SOURCE_ACTIONS_READ_TOKEN: ${{ secrets.SOURCE_ACTIONS_READ_TOKEN }}
+        run: node .github/scripts/check-producer.mjs
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: ${{ inputs.artifact_id }}
+          repository: chaeyeon96/study-wiki
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ secrets.SOURCE_ACTIONS_READ_TOKEN }}
+          path: transfer
+          merge-multiple: true
+      - name: Verify encrypted transfer digest and archive safety
+        run: python .github/scripts/unpack.py
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        id: upload
+        with:
+          path: encrypted-site
+          retention-days: 1
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        id: deployment
+      - name: Remove this run's temporary Pages artifact after successful deployment
+        if: steps.deployment.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
+        run: |
+          test -n "$ARTIFACT_ID"
+          gh api --method DELETE "repos/chaeyeon96/notes-35e3d5aad6/actions/artifacts/$ARTIFACT_ID"
+      - name: Remove runner transfer files
+        if: always()
+        run: rm -rf transfer encrypted-site
