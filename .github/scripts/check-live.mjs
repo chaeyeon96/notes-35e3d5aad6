@@ -14,6 +14,7 @@ export async function verifyLive(expected, {
   log = console.log,
   probeTimeout = 120000,
   timeout = 600000,
+  previousFiles = null,
 } = {}) {
   const query = '?deployment=' + encodeURIComponent(process.env.GITHUB_RUN_ID || 'verification');
   let checked = 0, bytes = 0;
@@ -53,9 +54,10 @@ export async function verifyLive(expected, {
   if (first.length !== probes.size) throw Error('Missing deployment probe files');
   // A stale deployment must not cause repeated downloads of every encrypted image.
   await retry(first, probeTimeout, 'New deployment visibility');
-  log('New deployment is visible; checking remaining ciphertext once, retrying only mismatches.');
-  await retry(expected.filter(item => !probes.has(item.rel)), timeout, 'Live ciphertext verification');
-  return {files: checked, bytes};
+  const changed = expected.filter(item => !probes.has(item.rel) && item.sha !== previousFiles?.[item.rel]);
+  log('New deployment is visible; checking ' + changed.length + ' changed files.');
+  await retry(changed, timeout, 'Live ciphertext verification');
+  return {files: checked, bytes, totalFiles: expected.length, reusedFiles: expected.length - checked};
 }
 
 async function main() {
@@ -72,7 +74,13 @@ async function main() {
     }
   }
   walk(root);
-  const result = await verifyLive(expected);
+  let previousFiles = null;
+  try {
+    const saved = JSON.parse(fs.readFileSync('.verified-live.json', 'utf8'));
+    if (saved.v === 1 && saved.files && Object.values(saved.files).every(sha => /^[a-f0-9]{64}$/.test(sha))) previousFiles = saved.files;
+  } catch {}
+  const result = await verifyLive(expected, {previousFiles});
+  fs.writeFileSync('.verified-live.json', JSON.stringify({v:1,files:Object.fromEntries(expected.map(item => [item.rel,item.sha]))}));
   console.log('Live site matches verified artifact: ' + JSON.stringify(result));
   if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
     'Live ciphertext/static file SHA256 comparison passed: ' + result.files + ' files. No decryption or password used on the public runner.\n');

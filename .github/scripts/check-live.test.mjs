@@ -31,3 +31,14 @@ test('after probes match, only failed ciphertext is retried', async () => {
   assert.equal(result.bytes, current.length * 4);
   for (const [url, count] of counts) assert.equal(count, url.includes('image.bin') ? 2 : 1);
 });
+
+test('verified unchanged image is not downloaded on later deployments', async () => {
+  const requested=[];
+  const result=await verifyLive(expected, {
+    previousFiles:Object.fromEntries(expected.map(item=>[item.rel,item.sha])),
+    fetchFile:async url=>{requested.push(url);return new Response(current);}, log() {},
+  });
+  assert.equal(result.files,3);
+  assert.equal(result.reusedFiles,1);
+  assert.ok(requested.every(url=>!url.includes('image.bin')));
+});
